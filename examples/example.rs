@@ -1,7 +1,7 @@
 use image::{DynamicImage, GenericImageView, Rgb, RgbImage};
 use imageproc::drawing::draw_hollow_rect_mut;
 use imageproc::rect::Rect;
-use ocr_backend::format::format::{Format, Paragraph};
+use ocr_backend::{Format, Paragraph};
 use ocr_rs::{Backend, OcrEngine, OcrEngineConfig, OcrResult_};
 use pdfium_render::prelude::*;
 use std::path::Path;

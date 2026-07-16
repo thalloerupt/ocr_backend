@@ -1,1 +1,2 @@
-pub mod format;
+mod format;
+pub use format::*;

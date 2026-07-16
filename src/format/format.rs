@@ -1,4 +1,4 @@
-use crate::filter::line_filter::Filter;
+use crate::filter::Filter;
 use ocr_rs::OcrResult_;
 #[derive(Debug, Clone, Copy)]
 pub struct Rect {

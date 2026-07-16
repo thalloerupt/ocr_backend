@@ -1,4 +1,4 @@
-use crate::format::format::Line;
+use crate::format::Line;
 
 pub struct Filter {
     pub results: Vec<Line>,
