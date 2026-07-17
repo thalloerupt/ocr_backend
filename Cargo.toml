@@ -16,3 +16,7 @@ path = "examples/example.rs"
 [[example]]
 name = "gpu_inference"
 path = "examples/gpu_inference.rs"
+
+[[example]]
+name = "ocr_backend_api"
+path = "examples/ocr_backend_api.rs"
