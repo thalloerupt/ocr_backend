@@ -18,11 +18,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("✅ 模型加载成功");
 
     // 2. 传入图片进行识别（可多次调用）
-    // let image = image::open("path/to/image.png")?;
-    // let paragraphs = backend.recognize(&image)?;
-    // for para in &paragraphs {
-    //     println!("{}", para.text);
-    // }
+    let image = image::open("res/1.jpg")?;
+    let paragraphs = backend.recognize(&image)?;
+    for para in &paragraphs {
+        println!("{}", para.font_size);
+    }
 
     // 也可以获取原始 OCR 结果
     // let raw_results = backend.recognize_raw(&image)?;
