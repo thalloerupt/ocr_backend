@@ -200,6 +200,7 @@ fn filter(lines: &Vec<Line>) -> Vec<Line> {
 /// 取所有行 bbox.height 的中位数作为字号估计值。
 /// 行高直接反映字符渲染高度，比基于宽度反推更准确。
 fn estimate_font_size(lines: &[Line]) -> u32 {
+    let dpi = 1.0;
     if lines.is_empty() {
         return 16;
     }
@@ -214,5 +215,5 @@ fn estimate_font_size(lines: &[Line]) -> u32 {
         (heights[n / 2 - 1] + heights[n / 2]) / 2
     };
 
-    (median.clamp(8, 200) as f32 * 0.75) as u32
+    (median.clamp(8, 200) as f32 * dpi) as u32
 }
