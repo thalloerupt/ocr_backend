@@ -1,7 +1,66 @@
 use image::DynamicImage;
-use ocr_rs::{OcrEngine, OcrEngineConfig, OcrResult_};
+use ocr_rs::{DetOptions, OcrEngine, OcrEngineConfig, OcrResult_};
 
 use crate::format::{Format, Paragraph};
+
+/// OCR 引擎配置
+///
+/// # 示例
+/// ```no_run
+/// use ocr_backend::OcrBackendConfig;
+///
+/// let config = OcrBackendConfig::new()
+///     .with_threads(4)
+///     .with_min_result_confidence(0.7);
+/// ```
+pub struct OcrBackendConfig {
+    threads: i32,
+    min_result_confidence: f32,
+    fast_det: bool,
+}
+
+impl Default for OcrBackendConfig {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl OcrBackendConfig {
+    pub fn new() -> Self {
+        Self {
+            threads: 4,
+            min_result_confidence: 0.7,
+            fast_det: false,
+        }
+    }
+
+    pub fn with_threads(mut self, threads: i32) -> Self {
+        self.threads = threads;
+        self
+    }
+
+    pub fn with_min_result_confidence(mut self, confidence: f32) -> Self {
+        self.min_result_confidence = confidence;
+        self
+    }
+
+    pub fn with_fast_det(mut self, fast: bool) -> Self {
+        self.fast_det = fast;
+        self
+    }
+
+    fn into_inner(self) -> OcrEngineConfig {
+        let config = OcrEngineConfig::new()
+            .with_backend(ocr_rs::Backend::CPU)
+            .with_threads(self.threads)
+            .with_min_result_confidence(self.min_result_confidence);
+        if self.fast_det {
+            config.with_det_options(DetOptions::fast())
+        } else {
+            config
+        }
+    }
+}
 
 pub struct OcrBackend {
     engine: OcrEngine,
@@ -18,10 +77,9 @@ impl OcrBackend {
     ///
     /// # 示例
     /// ```no_run
-    /// use ocr_backend::OcrBackend;
-    /// use ocr_rs::OcrEngineConfig;
+    /// use ocr_backend::{OcrBackend, OcrBackendConfig};
     ///
-    /// let config = OcrEngineConfig::fast().with_min_result_confidence(0.7);
+    /// let config = OcrBackendConfig::new().with_min_result_confidence(0.7);
     /// let backend = OcrBackend::new(
     ///     "res/models/PP-OCRv6_tiny_det.mnn",
     ///     "res/models/PP-OCRv6_tiny_rec.mnn",
@@ -33,9 +91,10 @@ impl OcrBackend {
         det_model: &str,
         rec_model: &str,
         dict_path: &str,
-        config: Option<OcrEngineConfig>,
+        config: Option<OcrBackendConfig>,
     ) -> Result<Self, Box<dyn std::error::Error>> {
-        let engine = OcrEngine::new(det_model, rec_model, dict_path, config)?;
+        let engine_config = config.map(OcrBackendConfig::into_inner);
+        let engine = OcrEngine::new(det_model, rec_model, dict_path, engine_config)?;
         Ok(Self { engine })
     }
 
