@@ -126,8 +126,8 @@ impl Format {
         // let mut text = "".to_string();
         // let mut bbox: Rect = Rect::default();
         let height = median_height(lines) as i32;
-
-        let _lines = filter(lines);
+        let filter = Filter {};
+        let _lines = filter.front_filter(lines);
 
         for line in &_lines {
             if let Some(para) = paragraphs.iter_mut().find(|p| {
@@ -168,15 +168,9 @@ impl Format {
             paragraph.font_size = font_size;
         }
 
+       // filter.back_filter(paragraphs)
         paragraphs
     }
-}
-
-fn filter(lines: &Vec<Line>) -> Vec<Line> {
-    let _filter = Filter {
-        results: lines.clone(),
-    };
-    _filter.font_filter()
 }
 
 // /// 合并一组矩形为外接矩形

@@ -13,7 +13,7 @@ const DICT_PATH: &str = "res/dict/ppocr_keys_v6_tiny.txt";
 const PDF_PATH: &str = "res/pdf/example.pdf";
 
 fn main() {
-    let image = export_pdf_to_image(PDF_PATH, None, 6).expect("获取图像失败");
+    let image = export_pdf_to_image(PDF_PATH, None, 2).expect("获取图像失败");
 
     ocr(&image, DET_MODEL_PATH, REC_MODEL_PATH, DICT_PATH).expect("解析失败");
 }
