@@ -33,7 +33,6 @@ fn export_pdf_to_image(
         )))
         .or_else(|_| Pdfium::bind_to_system_library())?,
     );
-    // Load the document from the given path...
 
     let document = pdfium.load_pdf_from_file(path, password)?;
 
@@ -57,9 +56,7 @@ fn ocr(
 ) -> Result<(), Box<dyn std::error::Error>> {
     let output_path = "debug_ocr_result.png";
 
-    let config = OcrEngineConfig::fast()
-        .with_backend(Backend::Vulkan)
-        .with_min_result_confidence(0.7);
+    let config = OcrEngineConfig::fast().with_min_result_confidence(0.7);
     let engine = OcrEngine::new(det_model, rec_model, keys_path, Some(config))?;
     println!("   ✅ 模型加载成功");
 
