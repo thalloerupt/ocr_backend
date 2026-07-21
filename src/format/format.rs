@@ -168,8 +168,8 @@ impl Format {
             paragraph.font_size = font_size;
         }
 
-       // filter.back_filter(paragraphs)
-        paragraphs
+        filter.back_filter(paragraphs)
+        //paragraphs
     }
 }
 

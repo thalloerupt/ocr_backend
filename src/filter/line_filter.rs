@@ -21,6 +21,9 @@ impl Filter {
             if char_width(line.text.clone(), line.bbox.width) + 2 < width {
                 continue;
             }
+            // if has_operator(&line.text.clone()) {
+            //     continue;
+            // }
             // if contains_math_symbols(line.text.clone()) {
             //     continue;
             // }
@@ -37,7 +40,7 @@ impl Filter {
         let mut _paragraphs: Vec<Paragraph> = Vec::new();
         for paragraph in &paragraphs {
             if is_single_line(paragraph) && contains_math_symbols(paragraph.text.clone()) {
-                break;
+                continue;
             }
             _paragraphs.push(Paragraph {
                 bbox: paragraph.bbox,
@@ -128,4 +131,8 @@ impl MathSymbolCheck for char {
             '+' | '-' | '*' | '/' | '=' | '±' | '×' | '÷' | '<' | '>' | '≤' | '≥' | '≠'
         )
     }
+}
+
+fn has_operator(s: &str) -> bool {
+    s.contains('=') || s.contains('+') //|| s.contains('-')
 }
