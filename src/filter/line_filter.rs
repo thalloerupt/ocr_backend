@@ -12,9 +12,9 @@ impl Filter {
             if is_short(line.text.clone()) {
                 continue;
             }
-            // if is_single_word(line.text.clone()) {
-            //     continue;
-            // }
+            if is_single_word(line.text.clone()) {
+                continue;
+            }
             if is_mostly_numeric(line.text.clone()) {
                 continue;
             }
